@@ -27,7 +27,10 @@ class PriceAnalysisServiceImpl(carRepo: CarRepositoryImpl) extends PriceAnalysis
 
     val mileageRemaining = expectedMileage-request.mileage
     val pricePerMileRemaining = mileageRemaining/request.price
-    val fairPrice = calculateFairPrice(remainingCars,expectedMileage,request.price)
+    val fairPrice = calculateFairPrice(remainingCars,expectedMileage,request.mileage)
+
+    println(s"request.price ${request.price}")
+    println(s"request.mileage ${request.mileage}")
 
 
 
@@ -67,7 +70,7 @@ class PriceAnalysisServiceImpl(carRepo: CarRepositoryImpl) extends PriceAnalysis
 
 
 
-  def calculateFairPrice(cars: List[Car], expectedMileage: Int, inputMileage: Float): Float = {
+  def calculateFairPrice(cars: List[Car], expectedMileage: Int, inputMileage: Int): Float = {
 
     val totalMileage = cars.map(c => c.odometer).sum
     val totalPrice = cars.map(c => c.price).sum
@@ -75,13 +78,15 @@ class PriceAnalysisServiceImpl(carRepo: CarRepositoryImpl) extends PriceAnalysis
     val totalExpectedMileage = expectedMileage*cars.length
 
     val totalMileageRemaining = totalExpectedMileage-totalMileage
-    val fairCostPerMile = totalMileageRemaining/totalPrice
+    val fairCostPerMile = totalPrice/totalMileageRemaining
 
     val inputMileageRemaining = expectedMileage-inputMileage
 
       println(s"fair Cost per mile $fairCostPerMile")
       println(s"total price $totalPrice")
       println(s"total mileage remaining $totalMileageRemaining")
+      println(s"input mileage remaining $inputMileageRemaining")
+      println(s"input mileage $inputMileage")
 
     fairCostPerMile*inputMileageRemaining
 
