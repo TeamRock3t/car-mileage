@@ -13,6 +13,8 @@ case class PriceAnalysisRequest(
                                )
 
 object PriceAnalysisRequest {
+  implicit val jsonEncoder: JsonEncoder[PriceAnalysisRequest]             = DeriveJsonEncoder.gen[PriceAnalysisRequest]
+  implicit val jsonDecoder: JsonDecoder[PriceAnalysisRequest]             = DeriveJsonDecoder.gen[PriceAnalysisRequest]
   implicit val codec: JsonCodec[PriceAnalysisRequest] = DeriveJsonCodec.gen[PriceAnalysisRequest]
 }
 
@@ -28,6 +30,8 @@ case class PriceAnalysisResponse(
                                 )
 
 object PriceAnalysisResponse{
+  implicit val jsonEncoder: JsonEncoder[PriceAnalysisResponse]                         = DeriveJsonEncoder.gen[PriceAnalysisResponse]
+  implicit val jsonDecoder: JsonDecoder[PriceAnalysisResponse]                         = DeriveJsonDecoder.gen[PriceAnalysisResponse]
   implicit val codec: JsonCodec[PriceAnalysisResponse] = DeriveJsonCodec.gen[PriceAnalysisResponse]
 }
 

@@ -47,10 +47,18 @@ object CarEndpoints {
             _ <- putStrLn(s"Validated claim: $jwtClaim")
             _ <- CarPriceService.deleteCar(id)
           } yield Response.ok
+
+        case req@Method.POST -> Root / "prices" =>
+          for {
+            _ <- putStrLn(s"Validated claim: $jwtClaim")
+            request <- extractBodyFromJson[PriceAnalysisRequest](req)
+            results <- CarPriceService.conductPriceAnalysis(request)
+          } yield Response.jsonString(results.toJson)
+
       }
       .catchAll {
         case NotFoundException(msg, id) =>
-          Http.fail(HttpError.NotFound(Root / "items" / id.toString))
+          Http.fail(HttpError.NotFound(Root / "cars" / id.toString))
         case ex: Throwable              =>
           Http.fail(HttpError.InternalServerError(msg = ex.getMessage, cause = Option(ex)))
         case err                        => Http.fail(HttpError.InternalServerError(msg = err.toString))
